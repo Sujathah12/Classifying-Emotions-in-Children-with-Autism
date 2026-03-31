@@ -1,29 +1,20 @@
-function Error = jFitnessFunction1(feat, label, mask, opts)
-    % Uses a fast KNN to evaluate the quality of the selected subset
-    xtrain = feat(:, mask == 1);
-    
-    % Ensure valid data
-    if isempty(xtrain)
-        Error = 1;
+function Error = jFitnessFunction1(feat, label, X, opts)
+    % X is the binary mask (1 = selected, 0 = not selected)
+    if sum(X == 1) == 0
+        Error = 1; % Return maximum error if no features selected
         return;
     end
     
-    % 5-Fold Cross Validation
-    k = 5;
-    cv = cvpartition(label, 'KFold', k);
-    err = zeros(k, 1);
+    % Select the features
+    xtrain = feat(:, X == 1);
     
-    for i = 1:k
-        tr_idx = cv.training(i);
-        te_idx = cv.test(i);
-        
-        % Train KNN (K=5)
-        mdl = fitcknn(xtrain(tr_idx,:), label(tr_idx), 'NumNeighbors', 5);
-        pred = predict(mdl, xtrain(te_idx,:));
-        
-        % Calculate loss
-        err(i) = sum(~strcmp(categorical(pred), categorical(label(te_idx)))) / length(te_idx);
+    % Perform 5-Fold Cross Validation using KNN (K=5)
+    % This is standard and ensures the error is stable
+    try
+        % We create the model and calculate loss in one step to avoid 'Model' errors
+        Model = fitcknn(xtrain, label, 'NumNeighbors', 5, 'KFold', 5);
+        Error = kfoldLoss(Model);
+    catch
+        Error = 1; % Fallback for math errors
     end
-    
-    Error = mean(err);
 end

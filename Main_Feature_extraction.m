@@ -2,7 +2,7 @@ clc
 clear
 close all
 addpath(genpath('.'))
-digitDatasetPath='./Train_out/';
+digitDatasetPath='./Data_out/';
   Database1=dir(digitDatasetPath );
 Database1(1:2)=[];
 imds = imageDatastore(digitDatasetPath, ...
@@ -25,7 +25,6 @@ num_net=2;
 switch num_net
     case 1
 [Eff_Train,Eff_test]=efficient_net(imds,imdsTrain,imdsValidation,options);
-
     case 2
 [Resnet_Train,Resnet_test]=Res_network(imds,imdsTrain,imdsValidation,options);
 end

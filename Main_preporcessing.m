@@ -3,7 +3,7 @@ clear
 close all
 warning off
 addpath(genpath('.'));
-path=('./Train/');
+path=('./Data/');
 Data=dir(path);
 Data(1:2)=[];
 out=[path(3:end-1),'_out'];
@@ -22,7 +22,8 @@ Read_fol=[path,Data(N1).name '/'];
           resi=imresize(I,[224 224]);
           image = double(resi);
           normalized_image = (image - min(image(:))) / (max(image(:)) - min(image(:)));
-          imshow(normalized_image); pause(0.01)
+          imshow(normalized_image);
+          pause(0.01)
 %           imwrite(im2double(normalized_image),[aa '/',Read_fol1(N2).name]);
           %% Rotation 
           angle=20;
@@ -42,5 +43,6 @@ Read_fol=[path,Data(N1).name '/'];
           normalized_imagef = (imagef - min(imagef(:))) / (max(imagef(:)) - min(imagef(:)));
           imshow(normalized_imagef); pause(0.01)
 %           imwrite(im2double(normalized_imagef),[aa '/','Mirroring',Read_fol1(N2).name]);
+          
     end
 end
