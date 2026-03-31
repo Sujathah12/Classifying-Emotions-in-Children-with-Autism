@@ -2,12 +2,12 @@ clc
 clear
 close all
 addpath(genpath('.'))
-digitDatasetPath='./Data_out/';
+digitDatasetPath='./Train_out/';
   Database1=dir(digitDatasetPath );
 Database1(1:2)=[];
 imds = imageDatastore(digitDatasetPath, ...
     'IncludeSubfolders',true);
-Train_tar=repmat([1:8],[100,1]);
+Train_tar=repmat([1:6],[90,1]);
 Train_tar=categorical(Train_tar(:));
 imds.Labels=Train_tar;
 numTrainFiles = 0.8;

@@ -3,7 +3,7 @@ clear
 close all
 warning off
 addpath(genpath('.'));
-path=('./Data/');
+path=('./Train/');
 Data=dir(path);
 Data(1:2)=[];
 out=[path(3:end-1),'_out'];
@@ -15,15 +15,14 @@ Read_fol=[path,Data(N1).name '/'];
     Read_fol1(1:2)=[];
     aa=[out '/',Data(N1).name];
     mkdir(aa)
-    for N2=1:100
+    for N2=1:30
           Get=[Read_fol,Read_fol1(N2).name];
           %% Image Resizing
           I=imread (Get);
           resi=imresize(I,[224 224]);
           image = double(resi);
           normalized_image = (image - min(image(:))) / (max(image(:)) - min(image(:)));
-          imshow(normalized_image);
-          pause(0.01)
+          imshow(normalized_image); pause(0.01)
 %           imwrite(im2double(normalized_image),[aa '/',Read_fol1(N2).name]);
           %% Rotation 
           angle=20;
