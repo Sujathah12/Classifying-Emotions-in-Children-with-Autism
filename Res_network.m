@@ -2,7 +2,7 @@ function [featuresTrain_resnet,featuresTest_resnet]=Res_network(imds,imdsTrain,i
 net= resnet50;
 net.Layers;
 
-a= fullyConnectedLayer(8,'Name','fc1000');
+a= fullyConnectedLayer(6,'Name','fc1000');
 res_net1= replaceLayer(layerGraph(net),'fc1000',a);
 a = imageInputLayer([224 224 3],'Name','input_1');
 res_net1= replaceLayer((res_net1),'input_1',a);
@@ -22,6 +22,6 @@ net = trainNetwork(imds,res_net,options);
         featuresTest_resnet(i,:) = activations(net,imread(imdsValidation.Files{i}),'avg_pool','OutputAs','rows');%
 
     end
-save Fea_resnet featuresTest_resnet featuresTrain_resnet
+% save Fea_resnet featuresTest_resnet featuresTrain_resnet
 end
 % end

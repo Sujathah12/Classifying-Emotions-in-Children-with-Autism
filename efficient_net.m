@@ -2,7 +2,7 @@ function [featuresTrain_eff,featuresTest_eff]=efficient_net(imds,imdsTrain,imdsV
 net= efficientnetb0;
 net.Layers;
 
-a= fullyConnectedLayer(8,'Name','efficientnet-b0|model|head|dense|MatMul');
+a= fullyConnectedLayer(6,'Name','efficientnet-b0|model|head|dense|MatMul');
 res_net1= replaceLayer(layerGraph(net),'efficientnet-b0|model|head|dense|MatMul',a);
 a = imageInputLayer([224 224 3],'Name','ImageInput');
 res_net1= replaceLayer((res_net1),'ImageInput',a);
@@ -22,6 +22,6 @@ net = trainNetwork(imds,res_net,options);
         featuresTest_eff(i,:) = activations(net,imread(imdsValidation.Files{i}),'efficientnet-b0|model|head|global_average_pooling2d|GlobAvgPool','OutputAs','rows');%
 
     end
-save Fea_eff featuresTest_eff featuresTrain_eff
+% save Fea_eff featuresTest_eff featuresTrain_eff
 end
 % end
